@@ -1,11 +1,17 @@
-FROM node:20
+FROM node:20-alpine
 
-WORKDIR /app
+WORKDIR /usr/src/app
 
 COPY . .
 
 RUN npm install
-RUN npm install module-alias
+
+# Create a non-root user (nodeuser) and home directory
+RUN adduser -D -h /home/nodeuser nodeuser
+
+RUN chown -R nodeuser:nodeuser /usr/src/app
+
+USER nodeuser
 
 EXPOSE 3000
 
