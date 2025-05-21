@@ -1,36 +1,71 @@
 import React, { useState } from 'react';
+import styles from './form.module.css';
+import { validateCard } from '../utils/validateCard';
+import { CardDetails } from '../types';
 
-const CreditCardForm: React.FC = () => {
+interface CreditCardFormProps {
+  country: string;
+  onValidate: (result: string) => void;
+}
+
+const CreditCardForm: React.FC<CreditCardFormProps> = ({ country, onValidate }) => {
   const [cardNumber, setCardNumber] = useState('');
-  const [country, setCountry] = useState('');
-  const [validationResult, setValidationResult] = useState<string | null>(null);
+  const [expiryDate, setExpiryDate] = useState('');
+  const [cvv, setCvv] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Call the validation function from utils/validateCard here
-    // Example: const result = validateCard(cardNumber, country);
-    // setValidationResult(result);
+    const cardDetails: CardDetails = {
+      number: cardNumber,
+      expiryDate,
+      cvv,
+      country,
+    };
+    const result = validateCard(cardDetails, country);
+    onValidate(result.message);
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="cardNumber">Card Number:</label>
+    <form onSubmit={handleSubmit} className={styles.formContainer}>
+      <div className={styles.formGroup}>
+        <label htmlFor="cardNumber" className={styles.formLabel}>Card Number:</label>
         <input
           type="text"
           id="cardNumber"
           value={cardNumber}
           onChange={(e) => setCardNumber(e.target.value)}
           required
+          className={styles.formInput}
         />
       </div>
-      <div>
-        <label htmlFor="country">Select Country:</label>
+      <div className={styles.formGroup}>
+        <label htmlFor="expiryDate" className={styles.formLabel}>Expiry Date (MM/YY):</label>
+        <input
+          type="text"
+          id="expiryDate"
+          value={expiryDate}
+          onChange={(e) => setExpiryDate(e.target.value)}
+          required
+          className={styles.formInput}
+        />
+      </div>
+      <div className={styles.formGroup}>
+        <label htmlFor="cvv" className={styles.formLabel}>CVV:</label>
+        <input
+          type="text"
+          id="cvv"
+          value={cvv}
+          onChange={(e) => setCvv(e.target.value)}
+          required
+          className={styles.formInput}
+        />
+      </div>
+      <div className={styles.formGroup}>
+        <label htmlFor="country" className={styles.formLabel}>Select Country:</label>
         <select
           id="country"
           value={country}
-          onChange={(e) => setCountry(e.target.value)}
-          required
+          className={styles.formInput}
         >
           <option value="">Select a country</option>
           <option value="US">United States</option>
@@ -39,8 +74,7 @@ const CreditCardForm: React.FC = () => {
           {/* Add more countries as needed */}
         </select>
       </div>
-      <button type="submit">Validate</button>
-      {validationResult && <p>{validationResult}</p>}
+      <button type="submit" className={styles.formButton}>Validate</button>
     </form>
   );
 };

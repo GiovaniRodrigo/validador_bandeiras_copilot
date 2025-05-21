@@ -1,35 +1,34 @@
-import { useState } from 'react';
+import React, { useState, ChangeEvent } from 'react';
 import CreditCardForm from '../components/CreditCardForm';
+import styles from './index.module.css'; // Importa o CSS module
 
-const Home = () => {
-  const [country, setCountry] = useState('');
-  const [validationResult, setValidationResult] = useState(null);
+const Home: React.FC = () => {
+  const [country, setCountry] = useState<string>('');
+  const [validationResult, setValidationResult] = useState<string | null>(null);
 
-  const handleCountryChange = (event) => {
+  const handleCountryChange = (event: ChangeEvent<HTMLSelectElement>) => {
     setCountry(event.target.value);
   };
 
-  const handleValidation = (result) => {
+  const handleValidation = (result: string) => {
     setValidationResult(result);
   };
 
   return (
     <div>
-      <h1>Credit Card Validator</h1>
-      <select value={country} onChange={handleCountryChange}>
-        <option value="">Select a country</option>
-        <option value="US">United States</option>
-        <option value="CA">Canada</option>
-        <option value="GB">United Kingdom</option>
-        {/* Add more countries as needed */}
-      </select>
-      <CreditCardForm country={country} onValidate={handleValidation} />
-      {validationResult && (
-        <div>
-          <h2>Validation Result:</h2>
-          <p>{validationResult}</p>
-        </div>
-      )}
+      <h1 className={styles.title}>Credit Card Validator</h1>
+
+      <div className={styles.container}>
+
+        <CreditCardForm country={country} onValidate={handleValidation} />
+
+        {validationResult && (
+          <div className={styles.validationResult}>
+            <h2>Validation Result:</h2>
+            <p>{validationResult}</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
