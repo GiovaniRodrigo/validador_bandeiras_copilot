@@ -16,7 +16,7 @@ const Home: React.FC = () => {
 
   return (
     <div>
-      <h1 className={styles.title}>Credit Card Validator</h1>
+      <h1 className={styles.title}>Validador de Cartão de Crédito</h1>
 
       <div className={styles.container}>
 
@@ -24,7 +24,7 @@ const Home: React.FC = () => {
 
         {validationResult && (
           <div className={styles.validationResult}>
-            <h2>Validation Result:</h2>
+            <h2>Resultado da Validação:</h2>
             <p>{validationResult}</p>
           </div>
         )}
