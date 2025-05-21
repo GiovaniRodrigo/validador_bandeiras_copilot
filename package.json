@@ -14,12 +14,13 @@
     "validation",
     "country"
   ],
-  "author": "Your Name",
+  "author": "Giovani Fernandes",
   "license": "MIT",
   "dependencies": {
     "next": "latest",
     "react": "latest",
-    "react-dom": "latest"
+    "react-dom": "latest",
+    "react-toastify": "^11.0.5"
   },
   "devDependencies": {
     "@types/node": "latest",
